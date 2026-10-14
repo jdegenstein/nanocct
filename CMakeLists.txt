@@ -30,7 +30,7 @@ endif()
 include("${CMAKE_SOURCE_DIR}/src/cpp/toolkits.cmake")   # generated: NANOCCT_TOOLKITS
 foreach(tk IN LISTS NANOCCT_TOOLKITS)
   file(GLOB tk_sources CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/cpp/${tk}/*.cpp")
-  nanobind_add_module(_${tk} STABLE_ABI NB_DOMAIN nanocct ${tk_sources})
+  nanobind_add_module(_${tk} STABLE_ABI LTO NB_DOMAIN nanocct ${tk_sources})
   target_compile_options(_${tk} PRIVATE ${NANOCCT_VISIBILITY})
   target_include_directories(_${tk} PRIVATE "${CMAKE_SOURCE_DIR}/src/cpp/common")
   # OCCT's exported targets define HAVE_RAPIDJSON but do not carry the include path, and an installed header
@@ -57,7 +57,7 @@ endforeach()
 # loop above and tracked in git (src/cpp/AddOns, kept by .gitignore and untouched by `make clean_gen`). It holds
 # the helpers that zero-copy views cannot express because they are computations rather than data,
 # and, rarely, a workaround for an OCCT bug that is not fixed upstream (Binding-Rules.md R-ADDON).
-nanobind_add_module(_AddOns STABLE_ABI NB_DOMAIN nanocct "${CMAKE_SOURCE_DIR}/src/cpp/AddOns/_AddOns.cpp"
+nanobind_add_module(_AddOns STABLE_ABI LTO NB_DOMAIN nanocct "${CMAKE_SOURCE_DIR}/src/cpp/AddOns/_AddOns.cpp"
                     "${CMAKE_SOURCE_DIR}/src/cpp/AddOns/Tessellator.cpp"
                     "${CMAKE_SOURCE_DIR}/src/cpp/AddOns/ShapeClean.cpp")
 target_compile_options(_AddOns PRIVATE ${NANOCCT_VISIBILITY})
